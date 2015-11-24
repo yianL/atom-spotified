@@ -4,11 +4,11 @@
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'my-atom-package'
+      'label': 'atom-spotified'
       'submenu': [
         {
           'label': 'Toggle'
-          'command': 'my-atom-package:toggle'
+          'command': 'atom-spotified:toggle'
         }
       ]
     ]

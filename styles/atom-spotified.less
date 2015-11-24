@@ -1,0 +1,41 @@
+// The ui-variables file is provided by base themes provided by Atom.
+//
+// See https://github.com/atom/atom-dark-ui/blob/master/styles/ui-variables.less
+// for a full listing of what's available.
+@import "ui-variables";
+
+.atom-spotified {
+  border-top: 1px solid @tree-view-border-color;
+  width: 100%;
+  display: flex;
+}
+
+.cover {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 56px;
+
+  img {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.info {
+  flex-grow: 1;
+  overflow: hidden;
+  padding: 11px 11px;
+
+  .name {
+    font-weight: 400;
+    font-size: 1.1em;
+    margin-bottom: 1px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .artist {
+
+  }
+}

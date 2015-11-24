@@ -1,18 +1,22 @@
 {
-  "name": "my-atom-package",
-  "main": "./lib/my-atom-package",
-  "version": "0.0.1",
-  "description": "A short description of your package",
+  "name": "atom-spotified",
+  "main": "./lib/atom-spotified",
+  "version": "0.0.0",
+  "description": "Show the song currently playing on Spotify",
   "keywords": [
+    "spotify",
+    "music",
+    "cover-art"
   ],
-  "activationCommands": {
-    "atom-workspace": "my-atom-package:toggle"
-  },
-  "repository": "https://github.com/atom/my-atom-package",
+  "repository": "https://github.com/yianL/atom-spotified",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
+    "atom-utils": ">=0.7.4",
+    "spotify-node-applescript": "^0.2.2",
+    "isomorphic-fetch": "^2.2.0",
+    "es6-promise": "^3.0.2"
   }
 }

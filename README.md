@@ -1,4 +1,4 @@
-# my-atom-package package
+# atom-spotified package
 
 A short description of your package.
 

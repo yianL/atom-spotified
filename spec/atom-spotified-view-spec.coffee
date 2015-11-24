@@ -1,4 +1,4 @@
-MyAtomPackageView = require '../lib/my-atom-package-view'
+MyAtomPackageView = require '../lib/atom-spotified-view'
 
 describe "MyAtomPackageView", ->
   it "has one valid test", ->

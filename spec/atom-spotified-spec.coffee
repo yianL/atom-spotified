@@ -1,4 +1,4 @@
-MyAtomPackage = require '../lib/my-atom-package'
+MyAtomPackage = require '../lib/atom-spotified'
 
 # Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
 #
@@ -10,30 +10,30 @@ describe "MyAtomPackage", ->
 
   beforeEach ->
     workspaceElement = atom.views.getView(atom.workspace)
-    activationPromise = atom.packages.activatePackage('my-atom-package')
+    activationPromise = atom.packages.activatePackage('atom-spotified')
 
-  describe "when the my-atom-package:toggle event is triggered", ->
+  describe "when the atom-spotified:toggle event is triggered", ->
     it "hides and shows the modal panel", ->
       # Before the activation event the view is not on the DOM, and no panel
       # has been created
-      expect(workspaceElement.querySelector('.my-atom-package')).not.toExist()
+      expect(workspaceElement.querySelector('.atom-spotified')).not.toExist()
 
       # This is an activation event, triggering it will cause the package to be
       # activated.
-      atom.commands.dispatch workspaceElement, 'my-atom-package:toggle'
+      atom.commands.dispatch workspaceElement, 'atom-spotified:toggle'
 
       waitsForPromise ->
         activationPromise
 
       runs ->
-        expect(workspaceElement.querySelector('.my-atom-package')).toExist()
+        expect(workspaceElement.querySelector('.atom-spotified')).toExist()
 
-        myAtomPackageElement = workspaceElement.querySelector('.my-atom-package')
+        myAtomPackageElement = workspaceElement.querySelector('.atom-spotified')
         expect(myAtomPackageElement).toExist()
 
         myAtomPackagePanel = atom.workspace.panelForItem(myAtomPackageElement)
         expect(myAtomPackagePanel.isVisible()).toBe true
-        atom.commands.dispatch workspaceElement, 'my-atom-package:toggle'
+        atom.commands.dispatch workspaceElement, 'atom-spotified:toggle'
         expect(myAtomPackagePanel.isVisible()).toBe false
 
     it "hides and shows the view", ->
@@ -45,18 +45,18 @@ describe "MyAtomPackage", ->
       # workspaceElement to the DOM are generally slower than those off DOM.
       jasmine.attachToDOM(workspaceElement)
 
-      expect(workspaceElement.querySelector('.my-atom-package')).not.toExist()
+      expect(workspaceElement.querySelector('.atom-spotified')).not.toExist()
 
       # This is an activation event, triggering it causes the package to be
       # activated.
-      atom.commands.dispatch workspaceElement, 'my-atom-package:toggle'
+      atom.commands.dispatch workspaceElement, 'atom-spotified:toggle'
 
       waitsForPromise ->
         activationPromise
 
       runs ->
         # Now we can test for view visibility
-        myAtomPackageElement = workspaceElement.querySelector('.my-atom-package')
+        myAtomPackageElement = workspaceElement.querySelector('.atom-spotified')
         expect(myAtomPackageElement).toBeVisible()
-        atom.commands.dispatch workspaceElement, 'my-atom-package:toggle'
+        atom.commands.dispatch workspaceElement, 'atom-spotified:toggle'
         expect(myAtomPackageElement).not.toBeVisible()
