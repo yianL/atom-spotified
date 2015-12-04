@@ -1,7 +1,7 @@
 {
   "name": "atom-spotified",
   "main": "./lib/atom-spotified",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Show the song currently playing in Spotify",
   "keywords": [
     "spotify",
