@@ -14,9 +14,6 @@
     "atom": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
-    "atom-utils": ">=0.7.4",
-    "spotify-node-applescript": "^0.2.2",
-    "isomorphic-fetch": "^2.2.0",
-    "es6-promise": "^3.0.2"
+    "spotify-node-applescript": "^0.2.2"
   }
 }

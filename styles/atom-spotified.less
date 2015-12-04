@@ -4,38 +4,67 @@
 // for a full listing of what's available.
 @import "ui-variables";
 
+@cover-art-size: 56px;
+
 .atom-spotified {
   border-top: 1px solid @tree-view-border-color;
   width: 100%;
   display: flex;
-}
 
-.cover {
-  flex-grow: 0;
-  flex-shrink: 0;
-  flex-basis: 56px;
+  .cover {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: @cover-art-size;
 
-  img {
-    height: 100%;
-    width: 100%;
+    &.show-placeholder {
+      img {
+        display: none;
+      }
+
+      i {
+        display: inline-block;
+      }
+    }
+
+    img {
+      height: 100%;
+      width: 100%;
+    }
+
+    i {
+      display: none;
+      font-size: 48px;
+      margin: 4px;
+    }
   }
-}
 
-.info {
-  flex-grow: 1;
-  overflow: hidden;
-  padding: 11px 11px;
-
-  .name {
-    font-weight: 400;
-    font-size: 1.1em;
-    margin-bottom: 1px;
-    text-overflow: ellipsis;
+  .info {
+    flex-grow: 1;
     overflow: hidden;
-    white-space: nowrap;
-  }
+    padding: 10px 7px;
 
-  .artist {
+    .name, .artist {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
 
+    .name {
+      font-weight: 400;
+      font-size: 13px;
+    }
+
+    .artist {
+      font-size: 12px;
+    }
+
+    .player-state {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      height: 12px;
+      width: 12px;
+      opacity: .6;
+    }
   }
 }

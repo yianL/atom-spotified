@@ -3,15 +3,13 @@ AtomSpotifiedView = require './atom-spotified-view'
 
 module.exports = AtomSpotified =
   atomSpotifiedView: null
-  modalPanel: null
   subscriptions: null
 
   config:
-    maxHeight:
-      type: 'integer'
-      default: 250
-      min: 0
-      description: 'Maximum height of the list before scrolling is required. Set to 0 to disable scrolling.'
+    showEqualizer:
+      type: 'boolean'
+      default: true
+      description: 'Show the equalizer at the bottom right corner'
 
   activate: (state) ->
     @atomSpotifiedView = new AtomSpotifiedView(state.atomSpotifiedViewState)
@@ -31,4 +29,7 @@ module.exports = AtomSpotified =
     atomSpotifiedViewState: @atomSpotifiedView.serialize()
 
   toggle: ->
-    if @atomSpotifiedView.isVisible then @atomSpotifiedView.hide() else @atomSpotifiedView.show()
+    if @atomSpotifiedView.isVisible
+      @atomSpotifiedView.hide()
+    else
+      @atomSpotifiedView.show()
