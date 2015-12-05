@@ -1,6 +1,6 @@
 # Atom-Spotified
 
-Show the song currently playing in Spotify at the bottom of your treeView.
+For all the Atom & Spotify lovers out there. This plugin shows the song currently playing in Spotify at the bottom of your treeView.
 
 ![A screenshot of your package](https://dl.dropboxusercontent.com/u/8712397/atom-spotified-screenshot.png)
 
@@ -34,4 +34,4 @@ PRs, bug reports, and feature requests are always welcomed!
 
 ## License
 
-[MIT License](http://opensource.org/licenses/MIT) - see the [LICENSE](https://github.com/atom/toggle-quotes/blob/master/LICENSE.md) for more details.
+[MIT License](http://opensource.org/licenses/MIT) - see the [LICENSE](https://github.com/yianL/atom-spotified/blob/master/LICENSE.md) for more details.

@@ -114,7 +114,11 @@ class AtomSpotifiedView
               # trackInfo.popularity
               @handleUpdate(trackId, trackInfo.name, trackInfo.artists[0].name, trackInfo.album.images[1].url)
             .catch (error) =>
-              @handleError(error)
+              spotify.getTrack (error, track) =>
+                if track
+                  @handleUpdate(trackId, track.name, track.artist)
+                else # cannot get current track
+                  @handleError(error)
       else # cannot get player state
         @handleError(error)
 
