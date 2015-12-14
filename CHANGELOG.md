@@ -1,3 +1,6 @@
+## 0.1.2 - Patch Release
+* Rewrite in ES6
+
 ## 0.1.1 - Patch Release
 * Improve offline handling
 
