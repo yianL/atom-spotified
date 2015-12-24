@@ -2,6 +2,6 @@
   "showEqualizer": {
     "type": "boolean",
     "default": true,
-    "description": "Show the equalizer at the bottom right corner" 
+    "description": "Show equalizer at the bottom right corner" 
   }
 }

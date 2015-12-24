@@ -6,6 +6,15 @@
 
 @cover-art-size: 56px;
 
+.atom-spotified,
+.atom-spotified-status {
+  .player-state {
+    height: 12px;
+    width: 12px;
+    opacity: .6;
+  }
+}
+
 .atom-spotified {
   border-top: 1px solid @tree-view-border-color;
   width: 100%;
@@ -62,9 +71,12 @@
       position: absolute;
       bottom: 0;
       right: 0;
-      height: 12px;
-      width: 12px;
-      opacity: .6;
     }
+  }
+}
+
+.atom-spotified-status {
+  .player-state {
+    margin-right: 2px;
   }
 }

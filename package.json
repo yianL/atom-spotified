@@ -15,5 +15,12 @@
   },
   "dependencies": {
     "spotify-node-applescript": "^0.2.2"
+  },
+  "consumedServices": {
+    "status-bar": {
+      "versions": {
+        ">=0.1.2": "consumeStatusBar"
+      }
+    }
   }
 }
