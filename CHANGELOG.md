@@ -1,3 +1,6 @@
+## 0.2.1 - Patch Release
+* Recover from error state automatically
+
 ## 0.2.0 - Minor Release
 * Add status bar view (when treeView is hidden)
 * Add Spotify poller service (not exposed as external service yet)

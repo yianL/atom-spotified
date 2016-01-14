@@ -8,6 +8,9 @@
     "music",
     "cover-art"
   ],
+  "os": [
+    "darwin"
+  ],
   "repository": "https://github.com/yianL/atom-spotified",
   "license": "MIT",
   "engines": {
