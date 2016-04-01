@@ -5,10 +5,8 @@ import { CompositeDisposable } from 'atom'
 import AtomSpotifiedPoller from './spotify-poller'
 import AtomSpotifiedView from './views/atom-spotified-view'
 import StatusBarView from './views/status-bar-view'
-import conifgSchema from './config-schema'
 
 export default AtomSpotified = {
-  config: conifgSchema,
 
   activate: (state) => {
     this.subscriptions = new CompositeDisposable()

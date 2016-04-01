@@ -1,6 +1,6 @@
 {
   "name": "atom-spotified",
-  "main": "./lib/main",
+  "main": "./src/main",
   "version": "0.2.1",
   "description": "Show the song currently playing in Spotify",
   "keywords": [
@@ -14,10 +14,17 @@
   "repository": "https://github.com/yianL/atom-spotified",
   "license": "MIT",
   "engines": {
-    "atom": ">=1.0.0 <2.0.0"
+    "atom": ">=1.0.0"
   },
   "dependencies": {
     "spotify-node-applescript": "^0.2.2"
+  },
+  "configSchema": {
+    "showEqualizer": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show equalizer at the bottom right corner"
+    }
   },
   "consumedServices": {
     "status-bar": {
