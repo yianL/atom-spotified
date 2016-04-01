@@ -1,16 +1,15 @@
-# Atom-Spotified
+# Atom-Spotified [![Build Status](https://travis-ci.org/yianL/atom-spotified.svg?branch=master)](https://travis-ci.org/yianL/atom-spotified)
 
-For all the Atom & Spotify lovers out there. This plugin shows the song currently playing in Spotify at the bottom of your treeView.
+For all the Atom & Spotify lovers out there! This plugin shows the song currently playing in Spotify.
+Switch between the tree view, or the status bar view, when the tree view is hidden:
 
-Switch between the tree view:
-![TreeView mode](https://raw.githubusercontent.com/yianL/atom-spotified/master/screenshots/atom-spotified-1.png)
-
-or the status bar view, when the tree view is hidden:
-![StatusBar mode](https://raw.githubusercontent.com/yianL/atom-spotified/master/screenshots/atom-spotified-2.png)
+Tree (Spotify style)   | Status Bar
+-----------------------|-------------------
+![TreeView mode](https://raw.githubusercontent.com/yianL/atom-spotified/master/screenshots/atom-spotified-1.png) | ![StatusBar mode](https://raw.githubusercontent.com/yianL/atom-spotified/master/screenshots/atom-spotified-2.png)
 
 ## Usage
 
-Currently this plugin is only supported in OS X since it's using AppleScript to interact with Spotify.
+Only OSX is supported at this moment since I'm using AppleScript to interact with Spotify.
 
 ### Commands
 
@@ -35,10 +34,6 @@ Configuration Key Path      | Type | Default | Description
 ## Contributing
 
 PRs, bug reports, and feature requests are always welcomed!
-
-## Screenshots
-
-![A screenshot of your package](https://raw.githubusercontent.com/yianL/atom-spotified/master/screenshots/atom-spotified-screenshot.png)
 
 ## License
 
