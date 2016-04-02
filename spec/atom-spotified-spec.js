@@ -1,32 +1,61 @@
 'use babel'
 
-import AtomSpotified from '../src/main'
-
 describe('AtomSpotified', () => {
-  let activationPromise, workspaceElement
+  let workspaceElement
 
   beforeEach(() => {
+    waitsForPromise(() => atom.packages.activatePackage('tree-view'))
+    waitsForPromise(() => atom.packages.activatePackage('status-bar'))
+
     workspaceElement = atom.views.getView(atom.workspace)
-    activationPromise = atom.packages.activatePackage('atom-spotified')
+    jasmine.attachToDOM(workspaceElement)
+
+    waitsForPromise(() => atom.packages.activatePackage('atom-spotified'))
   })
 
-  describe('when the atom-spotified:toggle event is triggered', () => {
-    beforeEach(() => {
-      waitsForPromise(() => activationPromise)
+  describe('when TreeView is active', () => {
+    it('shows the atom-spotified-view', () => {
+      const elem = workspaceElement.querySelector('.atom-spotified')
+      expect(elem).toBeVisible()
     })
 
-    it('hides and shows the view', () => {
-      jasmine.attachToDOM(workspaceElement)
+    it('does not show the status-bar-view', () => {
+      const elem = workspaceElement.querySelector('.atom-spotified-status')
+      expect(elem).toBe(null)
+    })
 
-      expect(atom.packages.isPackageActive('atom-spotified')).toBe(true)
-
-      runs(() => {
-        const myAtomPackageElement = workspaceElement.querySelector('.atom-spotified')
-
-        expect(myAtomPackageElement).toBeVisible()
-
+    describe('when atom-spotified:toggle event is triggered', () => {
+      it('hides and shows the view', () => {
+        const elem = workspaceElement.querySelector('.atom-spotified')
+        expect(elem).toBeVisible()
         atom.commands.dispatch(workspaceElement, 'atom-spotified:toggle')
-        expect(myAtomPackageElement).not.toBeVisible()
+        expect(elem).not.toBeVisible()
+      })
+    })
+  })
+
+  describe('when TreeView is inactive', () => {
+    beforeEach(() => {
+      // toggle the tree view to hide it
+      atom.commands.dispatch(workspaceElement, 'tree-view:toggle')
+    })
+
+    it('does not show the atom-spotified-view', () => {
+      const elem = workspaceElement.querySelector('.atom-spotified')
+      expect(elem).toBe(null)
+    })
+
+    it('shows the status-bar-view', () => {
+      const elem = workspaceElement.querySelector('.atom-spotified-status')
+      expect(elem).toBeVisible()
+    })
+
+    describe('when atom-spotified:toggle event is triggered', () => {
+      it('hides and shows the view', () => {
+        const elem = workspaceElement.querySelector('.atom-spotified-status')
+        expect(elem).toBeVisible()
+        atom.commands.dispatch(workspaceElement, 'atom-spotified:toggle')
+        expect(elem).not.toBeVisible()
       })
     })
   })

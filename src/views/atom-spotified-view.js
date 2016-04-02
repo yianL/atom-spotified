@@ -23,7 +23,7 @@ class AtomSpotifiedView extends HTMLElement {
     this.albumArt.classList.add('album-art')
     this.cover.appendChild(this.albumArt)
 
-    info = document.createElement('div')
+    let info = document.createElement('div')
     info.classList.add('info')
     this.appendChild(info)
 
@@ -61,7 +61,7 @@ class AtomSpotifiedView extends HTMLElement {
   }
 
   get update () {
-    return ::this.handleUpdate
+    return this.handleUpdate.bind(this)
   }
 
   handleUpdate (trackInfo, error) {
@@ -74,9 +74,9 @@ class AtomSpotifiedView extends HTMLElement {
 
     const { state, name, artist, cover } = trackInfo
 
-    this.playerState.src = state === 'paused' ?
-      'atom://atom-spotified/assets/equalizer_white_pause.gif' :
-      'atom://atom-spotified/assets/equalizer_white.gif'
+    this.playerState.src = state === 'paused'
+      ? 'atom://atom-spotified/assets/equalizer_white_pause.gif'
+      : 'atom://atom-spotified/assets/equalizer_white.gif'
     this.name.textContent = name
     this.artist.textContent = artist
 

@@ -20,7 +20,9 @@ class StatusBarView extends HTMLElement {
     this.track.href = '#'
     this.appendChild(this.track)
 
-    this.subscriptions.add(atom.tooltips.add(this.track, { title: function () { return this.textContent }}))
+    this.subscriptions.add(
+      atom.tooltips.add(this.track, {title: function () { return this.textContent }})
+    )
   }
 
   destroy () {
@@ -36,11 +38,11 @@ class StatusBarView extends HTMLElement {
     this.visible = !this.visible
   }
 
-  get update() {
-    return ::this.handleUpdate
+  get update () {
+    return this.handleUpdate.bind(this)
   }
 
-  handleUpdate(trackInfo, error) {
+  handleUpdate (trackInfo, error) {
     if (error) {
       this.track.textContent = `Error - ${error.message}`
       return
@@ -48,9 +50,9 @@ class StatusBarView extends HTMLElement {
 
     const { state, name, artist } = trackInfo
 
-    this.playerState.src = state === 'paused' ?
-      'atom://atom-spotified/assets/equalizer_white_pause.gif' :
-      'atom://atom-spotified/assets/equalizer_white.gif'
+    this.playerState.src = state === 'paused'
+      ? 'atom://atom-spotified/assets/equalizer_white_pause.gif'
+      : 'atom://atom-spotified/assets/equalizer_white.gif'
     this.track.textContent = `${name} - ${artist}`
   }
 }

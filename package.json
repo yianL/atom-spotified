@@ -19,6 +19,9 @@
   "dependencies": {
     "spotify-node-applescript": "^0.2.2"
   },
+  "devDependencies": {
+    "standard": "^6.0.8"
+  },
   "configSchema": {
     "showEqualizer": {
       "type": "boolean",
@@ -32,5 +35,21 @@
         ">=0.2.0": "consumeStatusBar"
       }
     }
+  },
+  "standard": {
+    "globals": [
+      "atom",
+      "beforeEach",
+      "describe",
+      "expect",
+      "fetch",
+      "HTMLElement",
+      "it",
+      "jasmine",
+      "runs",
+      "spyOn",
+      "waits",
+      "waitsForPromise"
+    ]
   }
 }

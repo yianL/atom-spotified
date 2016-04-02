@@ -2,19 +2,20 @@
 
 import { CompositeDisposable } from 'atom'
 
-import AtomSpotifiedPoller from './spotify-poller'
+import AtomSpotifiedPoller from './utils/spotify-poller'
 import AtomSpotifiedView from './views/atom-spotified-view'
 import StatusBarView from './views/status-bar-view'
 
-export default AtomSpotified = {
+const AtomSpotified = {
 
   activate: (state) => {
     this.subscriptions = new CompositeDisposable()
 
     this.poller = new AtomSpotifiedPoller()
     this.atomSpotifiedView = new AtomSpotifiedView()
-    this.atomSpotifiedView.initialize()
     this.statusBarView = new StatusBarView()
+
+    this.atomSpotifiedView.initialize()
     this.statusBarView.initialize()
 
     this.poller.addSubscriber(this.atomSpotifiedView.update)
@@ -27,6 +28,7 @@ export default AtomSpotified = {
       .activatePackage('tree-view')
       .then((treeViewPkg) => {
         this.treeViewPkg = treeViewPkg
+
         if (treeViewPkg.mainModule.treeView) {
           treeViewPkg.mainModule.treeView.append(this.atomSpotifiedView)
           this.viewAppended = true
@@ -34,7 +36,7 @@ export default AtomSpotified = {
         } else {
           this.statusBarTile = this.statusBar.addRightTile({
             item: this.statusBarView,
-            priority: 1000,
+            priority: 1000
           })
           this.showStatus = true
         }
@@ -58,7 +60,7 @@ export default AtomSpotified = {
       } else {
         this.statusBarTile = this.statusBar.addRightTile({
           item: this.statusBarView,
-          priority: 1000,
+          priority: 1000
         })
       }
       this.showStatus = !this.showStatus
@@ -77,5 +79,7 @@ export default AtomSpotified = {
 
   consumeStatusBar: (statusBar) => {
     this.statusBar = statusBar
-  },
+  }
 }
+
+export default AtomSpotified

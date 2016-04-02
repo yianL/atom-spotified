@@ -10,13 +10,13 @@ export default class AtomSpotifiedPoller {
     this.state = 'stopped'
   }
 
-  start() {
+  start () {
     setTimeout(() => this.updateTrackInfo())
     this.poller = setInterval(() => this.updateTrackInfo(), 5000)
     this.state = 'started'
   }
 
-  stop() {
+  stop () {
     clearInterval(this.poller)
     this.state = 'stopped'
   }
@@ -38,18 +38,18 @@ export default class AtomSpotifiedPoller {
       const options = {
         credentials: 'include',
         method: 'GET',
-        mode: 'cors',
+        mode: 'cors'
       }
 
       fetch(`https://api.spotify.com/v1/tracks/${trackId}`, options)
-        .then(response => {
+        .then((response) => {
           if (response.ok) {
             return response.json()
           }
 
           throw new Error('Spotify API request failed')
         })
-        .then(trackInfo => {
+        .then((trackInfo) => {
           // trackInfo.artists [id, name, href]
           // trackInfo.album {id, name, images[url, height, width]}
           // trackInfo.name
@@ -59,18 +59,20 @@ export default class AtomSpotifiedPoller {
             id: trackId,
             name: trackInfo.name,
             artist: trackInfo.artists[0].name,
-            cover: trackInfo.album.images[1].url,
+            cover: trackInfo.album.images[1].url
           }
-          
+
           this.handleUpdate(data)
         })
-        .catch(error => {
+        .catch((error) => {
+          console.error('atom-spotified:', error)
+
           spotify.getTrack((error, track) => {
             const data = {
               state: state.state,
               id: trackId,
               name: track.name,
-              artist: track.artist,
+              artist: track.artist
             }
 
             track ? this.handleUpdate(data) : this.handleError(error)
@@ -79,11 +81,11 @@ export default class AtomSpotifiedPoller {
     })
   }
 
-  addSubscriber(cb) {
+  addSubscriber (cb) {
     this.subscriptions.push(cb)
   }
 
-  removeSubscriber(cb) {
+  removeSubscriber (cb) {
     const idx = this.subscriptions.indexOf(cb)
 
     if (idx > -1) {
@@ -91,7 +93,7 @@ export default class AtomSpotifiedPoller {
     }
   }
 
-  handleUpdate({ state, id, name, artist, cover }) {
+  handleUpdate ({ state, id, name, artist, cover }) {
     this.retryCount = 0
     this.trackInfo.id = id || this.trackInfo.id
     this.trackInfo.state = state || this.trackInfo.state
@@ -99,14 +101,14 @@ export default class AtomSpotifiedPoller {
     this.trackInfo.artist = artist || this.trackInfo.artist
     this.trackInfo.cover = cover || this.trackInfo.cover
 
-    this.subscriptions.forEach(cb => cb(this.trackInfo))
+    this.subscriptions.forEach((cb) => cb(this.trackInfo))
   }
 
-  handleError(error) {
+  handleError (error) {
     console.error('atom-spotified:', error)
 
     if (this.retryCount > 3 && this.trackInfo.id) {
-      this.subscriptions.forEach(cb => cb({}, { message: 'Failed to get track info' }))
+      this.subscriptions.forEach((cb) => cb({}, { message: 'Failed to get track info' }))
       delete this.trackInfo.id
     } else {
       this.retryCount++
