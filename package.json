@@ -1,7 +1,7 @@
 {
   "name": "atom-spotified",
   "main": "./src/main",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Show the song currently playing in Spotify",
   "keywords": [
     "spotify",
@@ -31,7 +31,10 @@
     "statusBarViewPosition": {
       "type": "string",
       "default": "right",
-      "enum": ["right", "left"],
+      "enum": [
+        "right",
+        "left"
+      ],
       "description": "The position of the status bar view"
     },
     "statusBarViewPriority": {
