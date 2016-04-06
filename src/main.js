@@ -24,6 +24,24 @@ const AtomSpotified = {
     this.showStatus = false
     this.viewAppended = false
 
+    const addStatusBarView = () => {
+      const tile = {
+        item: this.statusBarView,
+        priority: atom.config.get('atom-spotified.statusBarViewPriority')
+      }
+
+      return atom.config.get('atom-spotified.statusBarViewPosition') === 'right'
+        ? this.statusBar.addRightTile(tile)
+        : this.statusBar.addLeftTile(tile)
+    }
+
+    const updateStatusView = () => {
+      if (this.showStatus) {
+        this.statusBarTile.destroy()
+        this.statusBarTile = addStatusBarView()
+      }
+    }
+
     atom.packages
       .activatePackage('tree-view')
       .then((treeViewPkg) => {
@@ -34,10 +52,7 @@ const AtomSpotified = {
           this.viewAppended = true
           this.showStatus = false
         } else {
-          this.statusBarTile = this.statusBar.addRightTile({
-            item: this.statusBarView,
-            priority: 1000
-          })
+          this.statusBarTile = addStatusBarView()
           this.showStatus = true
         }
       })
@@ -58,13 +73,14 @@ const AtomSpotified = {
         this.statusBarTile.destroy()
         this.statusBarTile = null
       } else {
-        this.statusBarTile = this.statusBar.addRightTile({
-          item: this.statusBarView,
-          priority: 1000
-        })
+        this.statusBarTile = addStatusBarView()
       }
+
       this.showStatus = !this.showStatus
     }))
+
+    atom.config.observe('atom-spotified.statusBarViewPosition', updateStatusView)
+    atom.config.observe('atom-spotified.statusBarViewPriority', updateStatusView)
 
     this.poller.start()
   },
@@ -73,6 +89,7 @@ const AtomSpotified = {
     this.subscriptions.dispose()
     this.atomSpotifiedView.destroy()
     this.statusBarView.destroy()
+    this.statusBarTile && this.statusBarTile.destroy()
   },
 
   serialize: () => ({}),

@@ -5,7 +5,7 @@ Switch between the tree view, or the status bar view, when the tree view is hidd
 
 Tree (Spotify style)   | Status Bar
 -----------------------|-------------------
-![TreeView mode](assets/screenshots/atom-spotified-1.png?raw=true) | ![StatusBar mode](assets/screenshots/atom-spotified-2.png?raw=true)
+![TreeView mode](https://raw.githubusercontent.com/yianL/atom-spotified/master/assets/screenshots/atom-spotified-1.png) | ![StatusBar mode](https://raw.githubusercontent.com/yianL/atom-spotified/master/assets/screenshots/atom-spotified-2.png)
 
 ## Usage
 
@@ -29,7 +29,7 @@ Custom keybindings can be added by referencing the above commands.
 
 Configuration Key Path      | Type | Default | Description
 ----------------------------|------|---------|------------
-`atom-spotified:showEqualizer` | `boolean` | `true` | Whether to show the equalizer animation or not.
+`atom-spotified:showSoundBar` | `boolean` | `true` | Whether to show the equalizer animation or not.
 
 ## Contributing
 

@@ -23,10 +23,21 @@
     "standard": "^6.0.8"
   },
   "configSchema": {
-    "showEqualizer": {
+    "showSoundBar": {
       "type": "boolean",
       "default": true,
-      "description": "Show equalizer at the bottom right corner"
+      "description": "Show sound bar animation"
+    },
+    "statusBarViewPosition": {
+      "type": "string",
+      "default": "right",
+      "enum": ["right", "left"],
+      "description": "The position of the status bar view"
+    },
+    "statusBarViewPriority": {
+      "type": "integer",
+      "default": 1000,
+      "description": "Controls the position of the status bar view"
     }
   },
   "consumedServices": {

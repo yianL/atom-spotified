@@ -1,3 +1,7 @@
+## 0.3.0 - Minor Release
+* Add CI
+* Add more config options for status bar view
+
 ## 0.2.1 - Patch Release
 * Recover from error state automatically
 

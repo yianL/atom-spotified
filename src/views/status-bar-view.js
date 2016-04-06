@@ -21,7 +21,7 @@ class StatusBarView extends HTMLElement {
     this.appendChild(this.track)
 
     this.subscriptions.add(
-      atom.tooltips.add(this.track, {title: function () { return this.textContent }})
+      atom.tooltips.add(this.track, {title: () => this.textContent})
     )
   }
 

@@ -31,7 +31,7 @@ class AtomSpotifiedView extends HTMLElement {
     this.name.classList.add('name')
     this.name.textContent = 'Spotified'
     info.appendChild(this.name)
-    this.subscriptions.add(atom.tooltips.add(this.name, {title: function () { return this.textContent }}))
+    this.subscriptions.add(atom.tooltips.add(this.name, {title: () => this.textContent}))
 
     this.artist = document.createElement('div')
     this.artist.classList.add('artist')
@@ -43,8 +43,9 @@ class AtomSpotifiedView extends HTMLElement {
     this.playerState.src = 'atom://atom-spotified/assets/equalizer_white_pause.gif'
     info.appendChild(this.playerState)
 
-    atom.config.observe('atom-spotified.showEqualizer', (value) =>
-      value ? this.playerState.classList.remove('hidden') : this.playerState.classList.add('hidden'))
+    atom.config.observe('atom-spotified.showSoundBar', (value) => {
+      value ? this.playerState.classList.remove('hidden') : this.playerState.classList.add('hidden')
+    })
   }
 
   destroy () {
