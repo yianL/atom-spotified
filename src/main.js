@@ -15,9 +15,6 @@ const AtomSpotified = {
     this.atomSpotifiedView = new AtomSpotifiedView()
     this.statusBarView = new StatusBarView()
 
-    this.atomSpotifiedView.initialize()
-    this.statusBarView.initialize()
-
     this.poller.addSubscriber(this.atomSpotifiedView.update)
     this.poller.addSubscriber(this.statusBarView.update)
 
@@ -26,7 +23,7 @@ const AtomSpotified = {
 
     const addStatusBarView = () => {
       const tile = {
-        item: this.statusBarView,
+        item: this.statusBarView.element,
         priority: atom.config.get('atom-spotified.statusBarViewPriority')
       }
 
@@ -48,7 +45,7 @@ const AtomSpotified = {
         this.treeViewPkg = treeViewPkg
 
         if (treeViewPkg.mainModule.treeView) {
-          treeViewPkg.mainModule.treeView.append(this.atomSpotifiedView)
+          treeViewPkg.mainModule.treeView.append(this.atomSpotifiedView.element)
           this.viewAppended = true
           this.showStatus = false
         } else {
@@ -68,7 +65,7 @@ const AtomSpotified = {
 
       if (this.showStatus) {
         if (!this.viewAppended) {
-          this.treeViewPkg.mainModule.treeView.append(this.atomSpotifiedView)
+          this.treeViewPkg.mainModule.treeView.append(this.atomSpotifiedView.element)
         }
         this.statusBarTile.destroy()
         this.statusBarTile = null
@@ -88,8 +85,8 @@ const AtomSpotified = {
   deactivate: () => {
     this.subscriptions.dispose()
     this.atomSpotifiedView.destroy()
-    this.statusBarView.destroy()
     this.statusBarTile && this.statusBarTile.destroy()
+    this.statusBarView.destroy()
   },
 
   serialize: () => ({}),

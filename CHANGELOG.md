@@ -1,3 +1,6 @@
+## 0.3.1 - Patch Release
+* Remove document.registerElement() to prevent namespace collision when upgrading package
+
 ## 0.3.0 - Minor Release
 * Add CI
 * Add more config options for status bar view

@@ -2,17 +2,26 @@
 
 import { CompositeDisposable } from 'atom'
 
-class AtomSpotifiedView extends HTMLElement {
-  initialize () {
+class AtomSpotifiedView {
+  constructor () {
     this.subscriptions = new CompositeDisposable()
     this.visible = true
 
-    this.classList.add('atom-spotified')
+    this.element = document.createElement('div')
+    this.element.classList.add('atom-spotified')
 
     this.cover = document.createElement('div')
     this.cover.classList.add('cover')
     this.cover.classList.add('show-placeholder')
-    this.appendChild(this.cover)
+    this.element.appendChild(this.cover)
+
+    // this.expander = document.createElement('div')
+    // this.expander.classList.add('toggle')
+    // const icon = document.createElement('i')
+    // icon.classList.add('fa')
+    // icon.classList.add('fa-angle-up')
+    // this.expander.appendChild(icon)
+    // this.cover.appendChild(this.expander)
 
     this.placeholderIcon = document.createElement('i')
     this.placeholderIcon.classList.add('fa')
@@ -25,7 +34,7 @@ class AtomSpotifiedView extends HTMLElement {
 
     let info = document.createElement('div')
     info.classList.add('info')
-    this.appendChild(info)
+    this.element.appendChild(info)
 
     this.name = document.createElement('div')
     this.name.classList.add('name')
@@ -46,17 +55,20 @@ class AtomSpotifiedView extends HTMLElement {
     atom.config.observe('atom-spotified.showSoundBar', (value) => {
       value ? this.playerState.classList.remove('hidden') : this.playerState.classList.add('hidden')
     })
+
+    return this
   }
 
   destroy () {
     this.subscriptions.dispose()
+    this.element.remove()
   }
 
   toggle () {
     if (this.visible) {
-      this.classList.add('hidden')
+      this.element.classList.add('hidden')
     } else {
-      this.classList.remove('hidden')
+      this.element.classList.remove('hidden')
     }
     this.visible = !this.visible
   }
@@ -90,4 +102,4 @@ class AtomSpotifiedView extends HTMLElement {
   }
 }
 
-export default document.registerElement('atom-spotified', { prototype: AtomSpotifiedView.prototype, extends: 'div' })
+export default AtomSpotifiedView

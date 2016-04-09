@@ -2,38 +2,42 @@
 
 import { CompositeDisposable } from 'atom'
 
-class StatusBarView extends HTMLElement {
-  initialize () {
+class StatusBarView {
+  constructor () {
     this.subscriptions = new CompositeDisposable()
     this.visible = true
 
-    this.classList.add('atom-spotified-status', 'inline-block')
+    this.element = document.createElement('div')
+    this.element.classList.add('atom-spotified-status', 'inline-block')
 
     this.playerState = document.createElement('img')
     this.playerState.classList.add('player-state')
     this.playerState.src = 'atom://atom-spotified/assets/equalizer_white.gif'
-    this.appendChild(this.playerState)
+    this.element.appendChild(this.playerState)
 
     this.track = document.createElement('a')
     this.track.textContent = 'ATOM-SPOTIFIED'
     this.track.classList.add('inline-block')
     this.track.href = '#'
-    this.appendChild(this.track)
+    this.element.appendChild(this.track)
 
     this.subscriptions.add(
-      atom.tooltips.add(this.track, {title: () => this.textContent})
+      atom.tooltips.add(this.track, {title: () => this.element.textContent})
     )
+
+    return this
   }
 
   destroy () {
     this.subscriptions.dispose()
+    this.element.remove()
   }
 
   toggle () {
     if (this.visible) {
-      this.classList.add('hidden')
+      this.element.classList.add('hidden')
     } else {
-      this.classList.remove('hidden')
+      this.element.classList.remove('hidden')
     }
     this.visible = !this.visible
   }
@@ -57,4 +61,4 @@ class StatusBarView extends HTMLElement {
   }
 }
 
-export default document.registerElement('status-bar-spotified', { prototype: StatusBarView.prototype, extends: 'div' })
+export default StatusBarView

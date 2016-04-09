@@ -24,14 +24,41 @@
     flex-grow: 0;
     flex-shrink: 0;
     flex-basis: @cover-art-size;
+    position: relative;
 
     &.show-placeholder {
       img {
         display: none;
       }
 
-      i {
+      i.fa-spotify{
         display: inline-block;
+      }
+    }
+
+    .toggle {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      right: 2px;
+      top: 2px;
+      border-radius: 3px;
+      color: white;
+      background-color: #333;
+      opacity: 0;
+      cursor: pointer;
+      transition: opacity .2s ease-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    &:hover .toggle {
+      opacity: .4;
+
+      &:hover {
+        opacity: .9;
       }
     }
 
@@ -40,7 +67,7 @@
       width: 100%;
     }
 
-    i {
+    i.fa-spotify{
       display: none;
       font-size: 48px;
       margin: 4px;
