@@ -15,11 +15,12 @@ const AtomSpotified = {
     this.atomSpotifiedView = new AtomSpotifiedView()
     this.statusBarView = new StatusBarView()
 
-    this.poller.addSubscriber(this.atomSpotifiedView.update)
+    this.poller.addSubscriber(this.atomSpotifiedView.update.bind(this.atomSpotifiedView))
     this.poller.addSubscriber(this.statusBarView.update)
 
     this.showStatus = false
     this.viewAppended = false
+    this.visible = true
 
     const addStatusBarView = () => {
       const tile = {
@@ -56,7 +57,8 @@ const AtomSpotified = {
 
     // Register command that toggles this view
     this.subscriptions.add(atom.commands.add('atom-workspace', 'atom-spotified:toggle', () => {
-      this.atomSpotifiedView.toggle()
+      this.visible = !this.visible
+      this.atomSpotifiedView.update({visible: this.visible})
       this.statusBarView.toggle()
     }))
 

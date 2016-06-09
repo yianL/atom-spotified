@@ -1,105 +1,110 @@
 'use babel'
+/** @jsx etch.dom */
 
+import etch from 'etch'
+import DOMListener from 'dom-listener'
+import classNames from 'classnames'
 import { CompositeDisposable } from 'atom'
 
-class AtomSpotifiedView {
-  constructor () {
-    this.subscriptions = new CompositeDisposable()
-    this.visible = true
-
-    this.element = document.createElement('div')
-    this.element.classList.add('atom-spotified')
-
-    this.cover = document.createElement('div')
-    this.cover.classList.add('cover')
-    this.cover.classList.add('show-placeholder')
-    this.element.appendChild(this.cover)
-
-    // this.expander = document.createElement('div')
-    // this.expander.classList.add('toggle')
-    // const icon = document.createElement('i')
-    // icon.classList.add('fa')
-    // icon.classList.add('fa-angle-up')
-    // this.expander.appendChild(icon)
-    // this.cover.appendChild(this.expander)
-
-    this.placeholderIcon = document.createElement('i')
-    this.placeholderIcon.classList.add('fa')
-    this.placeholderIcon.classList.add('fa-spotify')
-    this.cover.appendChild(this.placeholderIcon)
-
-    this.albumArt = document.createElement('img')
-    this.albumArt.classList.add('album-art')
-    this.cover.appendChild(this.albumArt)
-
-    let info = document.createElement('div')
-    info.classList.add('info')
-    this.element.appendChild(info)
-
-    this.name = document.createElement('div')
-    this.name.classList.add('name')
-    this.name.textContent = 'Spotified'
-    info.appendChild(this.name)
-    this.subscriptions.add(atom.tooltips.add(this.name, {title: () => this.textContent}))
-
-    this.artist = document.createElement('div')
-    this.artist.classList.add('artist')
-    this.artist.textContent = 'Atom'
-    info.appendChild(this.artist)
-
-    this.playerState = document.createElement('img')
-    this.playerState.classList.add('player-state')
-    this.playerState.src = 'atom://atom-spotified/assets/equalizer_white_pause.gif'
-    info.appendChild(this.playerState)
-
-    atom.config.observe('atom-spotified.showSoundBar', (value) => {
-      value ? this.playerState.classList.remove('hidden') : this.playerState.classList.add('hidden')
-    })
-
-    return this
-  }
-
-  destroy () {
-    this.subscriptions.dispose()
-    this.element.remove()
-  }
-
-  toggle () {
-    if (this.visible) {
-      this.element.classList.add('hidden')
-    } else {
-      this.element.classList.remove('hidden')
-    }
-    this.visible = !this.visible
-  }
-
-  get update () {
-    return this.handleUpdate.bind(this)
-  }
-
-  handleUpdate (trackInfo, error) {
-    if (error) {
-      this.name.textContent = 'Error'
-      this.artist.textContent = 'Something is wrong'
-      this.cover.classList.add('show-placeholder')
-      return
-    }
-
-    const { state, name, artist, cover } = trackInfo
-
-    this.playerState.src = state === 'paused'
-      ? 'atom://atom-spotified/assets/equalizer_white_pause.gif'
-      : 'atom://atom-spotified/assets/equalizer_white.gif'
-    this.name.textContent = name
-    this.artist.textContent = artist
-
-    if (cover) {
-      this.albumArt.src = cover
-      this.cover.classList.remove('show-placeholder')
-    } else {
-      this.cover.classList.add('show-placeholder')
-    }
+/*
+propTypes = {
+  showSoundBar: bool,
+  showLargeCover: bool,
+  visible: bool,
+  trackInfo: {
+    name: string,
+    artist: string,
+    cover: string,
+    state: oneOf('playing', 'paused', 'error')
   }
 }
+*/
+export default class AtomSpotifiedView {
 
-export default AtomSpotifiedView
+  constructor (props, children) {
+    this.props = {
+      showSoundBar: atom.config.get('atom-spotified.showSoundBar'),
+      showLargeCover: false,
+      visible: true,
+      trackInfo: {},
+    }
+
+    // initial render of component
+    etch.initialize(this)
+
+    // setup event listeners
+    this.listener = new DOMListener(this.element)
+    this.listener.add('.toggle', 'click', this.toggleCover.bind(this))
+
+    atom.config.observe('atom-spotified.showSoundBar', (value) => this.update({showSoundBar: value}))
+
+    // setup subscriptions
+    this.subscriptions = new CompositeDisposable()
+    this.subscriptions.add(
+      atom.tooltips.add(this.refs.name, {
+        title: () => `${this.props.trackInfo.name} - ${this.props.trackInfo.artist}`
+      })
+    )
+  }
+
+  toggleCover () {
+    const { showLargeCover } = this.props
+    this.update({showLargeCover: !showLargeCover})
+  }
+
+  render () {
+    const { showSoundBar, visible, showLargeCover } = this.props
+    const { name, cover, artist, state } = this.props.trackInfo
+
+    return (
+      <div className={classNames('atom-spotified', {hidden: !visible, ['large-cover']: showLargeCover})}>
+        <div className={classNames('cover-2', {hidden: !showLargeCover})}>
+          {cover
+            ? <img className='album-art' src={cover} />
+            : <i className='fa fa-spotify' />}
+          <div className='toggle'>
+            <i className='fa fa-angle-down' />
+          </div>
+        </div>
+        <div className='info'>
+          <div className={classNames('cover', {hidden: showLargeCover})}>
+            {cover
+              ? <img className='album-art' src={cover} />
+              : <i className='fa fa-spotify' />}
+            <div className='toggle'>
+              <i className='fa fa-angle-up' />
+            </div>
+          </div>
+
+          <div className='track-info'>
+            <div ref='name' className='name'>
+              {name || 'Spotified'}
+            </div>
+            <div className='artist'>
+              {artist || 'Atom'}
+            </div>
+          </div>
+          <img
+            className={classNames('player-state', {hidden: !showSoundBar})}
+            src={state === 'playing'
+              ? 'atom://atom-spotified/assets/equalizer_white.gif'
+              : 'atom://atom-spotified/assets/equalizer_white_pause.gif'}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  update (props, children) {
+    // shallow update
+    for (var key in props) {
+      this.props[key] = props[key]
+    }
+    return etch.update(this)
+  }
+
+  async destroy () {
+    await etch.destroy(this)
+    this.subscriptions.dispose()
+  }
+}

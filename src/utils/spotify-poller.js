@@ -101,7 +101,10 @@ export default class AtomSpotifiedPoller {
     this.trackInfo.artist = artist || this.trackInfo.artist
     this.trackInfo.cover = cover || this.trackInfo.cover
 
-    this.subscriptions.forEach((cb) => cb(this.trackInfo))
+    this.subscriptions.forEach((cb) => cb({
+      ...this.trackInfo,
+      trackInfo: this.trackInfo
+    }))
   }
 
   handleError (error) {

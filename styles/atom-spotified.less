@@ -4,10 +4,12 @@
 // for a full listing of what's available.
 @import "ui-variables";
 
-@cover-art-size: 56px;
+@cover-thumbnail-size: 56px;
 
 .atom-spotified,
 .atom-spotified-status {
+  position: relative;
+
   .player-state {
     height: 12px;
     width: 12px;
@@ -19,45 +21,26 @@
   border-top: 1px solid @tree-view-border-color;
   border-bottom: 1px solid @tree-view-border-color;
   width: 100%;
-  display: flex;
+
+  &.large-cover {
+    .info .track-info {
+      margin-left: 0;
+    }
+  }
 
   .cover {
-    flex: 0 0 @cover-art-size;
-    position: relative;
+    position: absolute;
+    width: @cover-thumbnail-size;
+    height: @cover-thumbnail-size;
+    top: 0;
+    left: 0;
 
-    &.show-placeholder {
-      img {
-        display: none;
-      }
+    i {
+      display: inline-block;
 
-      i.fa-spotify{
-        display: inline-block;
-      }
-    }
-
-    .toggle {
-      position: absolute;
-      width: 18px;
-      height: 18px;
-      right: 2px;
-      top: 2px;
-      border-radius: 3px;
-      color: white;
-      background-color: #333;
-      opacity: 0;
-      cursor: pointer;
-      transition: opacity .2s ease-out;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-    }
-
-    &:hover .toggle {
-      opacity: .4;
-
-      &:hover {
-        opacity: .9;
+      &.fa-spotify {
+        font-size: 48px;
+        margin: 4px;
       }
     }
 
@@ -65,18 +48,29 @@
       height: 100%;
       width: 100%;
     }
+  }
 
-    i.fa-spotify{
-      display: none;
-      font-size: 48px;
-      margin: 4px;
+  .cover-2 {
+    position: relative;
+
+    img {
+      width: 100%;
     }
   }
 
   .info {
-    flex-grow: 1;
+    width: 100%;
     overflow: hidden;
-    padding: 10px 7px;
+
+    .track-info {
+      transition: margin .1s ease-out;
+      margin-left: @cover-thumbnail-size;
+      background-color: @tree-view-background-color;
+      padding: 10px 7px;
+      height: @cover-thumbnail-size;
+      z-index: 5;
+      position: relative;
+    }
 
     .name, .artist {
       text-overflow: ellipsis;
@@ -95,8 +89,38 @@
 
     .player-state {
       position: absolute;
+      z-index: 10;
       bottom: 0;
       right: 0;
+    }
+  }
+
+  .toggle {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    right: 2px;
+    top: 2px;
+    border-radius: 3px;
+    color: white;
+    background-color: #333;
+    opacity: 0;
+    cursor: pointer;
+    transition: opacity .2s ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+
+    &:hover {
+      opacity: .9 !important;
+    }
+  }
+
+  .cover,
+  .cover-2 {
+    &:hover .toggle {
+      opacity: .4;
     }
   }
 }
