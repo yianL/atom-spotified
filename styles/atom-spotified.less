@@ -17,13 +17,12 @@
 
 .atom-spotified {
   border-top: 1px solid @tree-view-border-color;
+  border-bottom: 1px solid @tree-view-border-color;
   width: 100%;
   display: flex;
 
   .cover {
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: @cover-art-size;
+    flex: 0 0 @cover-art-size;
     position: relative;
 
     &.show-placeholder {
