@@ -34,14 +34,12 @@
     height: @cover-thumbnail-size;
     top: 0;
     left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    i {
-      display: inline-block;
-
-      &.fa-spotify {
-        font-size: 48px;
-        margin: 4px;
-      }
+    .fa-spotify {
+      font-size: 48px;
     }
 
     img {
@@ -52,6 +50,11 @@
 
   .cover-2 {
     position: relative;
+
+    .fa-spotify {
+      width: 100%;
+      font-size: 100px;
+    }
 
     img {
       width: 100%;

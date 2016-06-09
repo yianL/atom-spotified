@@ -107,7 +107,7 @@ export default class AtomSpotifiedPoller {
   }
 
   handleError (error) {
-    console.error('atom-spotified:', error)
+    console.error('atom-spotified error:', error)
 
     if (this.retryCount > 3 && this.trackInfo.id) {
       this.subscriptions.forEach((cb) => cb({
