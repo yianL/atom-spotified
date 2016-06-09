@@ -102,7 +102,6 @@ export default class AtomSpotifiedPoller {
     this.trackInfo.cover = cover || this.trackInfo.cover
 
     this.subscriptions.forEach((cb) => cb({
-      ...this.trackInfo,
       trackInfo: this.trackInfo
     }))
   }
@@ -111,7 +110,12 @@ export default class AtomSpotifiedPoller {
     console.error('atom-spotified:', error)
 
     if (this.retryCount > 3 && this.trackInfo.id) {
-      this.subscriptions.forEach((cb) => cb({}, { message: 'Failed to get track info' }))
+      this.subscriptions.forEach((cb) => cb({
+        trackInfo: {
+          state: 'error'
+        },
+        message: 'Failed to get track info'
+      }))
       delete this.trackInfo.id
     } else {
       this.retryCount++
