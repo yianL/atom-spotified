@@ -1,3 +1,8 @@
+## 0.4.0
+* UI components rewritten in atom/etch, so they are way easier to exxtend & customize now
+* Added spotify style cover-art toggle. Probably not too useful, but it's super cool :tada:
+* Hide soundbar animation config now affect statusBarView as well
+
 ## 0.3.1 - Patch Release
 * Remove document.registerElement() to prevent namespace collision when upgrading package
 
