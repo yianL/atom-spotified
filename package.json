@@ -26,6 +26,16 @@
     "standard": "^6.0.8"
   },
   "configSchema": {
+    "mode": {
+      "type": "string",
+      "default": "Auto",
+      "enum": [
+        "Auto",
+        "Tree",
+        "StatusBar"
+      ],
+      "description": "*Restart required"
+    },
     "showSoundBar": {
       "type": "boolean",
       "default": true,

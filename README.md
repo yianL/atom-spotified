@@ -29,7 +29,10 @@ Custom keybindings can be added by referencing the above commands.
 
 Configuration Key Path      | Type | Default | Description
 ----------------------------|------|---------|------------
+`atom-spotified:mode` | `string` | `Auto` | <ul><li>`Auto(default)` - Toggle between treeView and statusBarView automatically</li><li>`Tree` - TreeView only</li><li>`Status` - StatusBarView only</li></ul>
 `atom-spotified:showSoundBar` | `boolean` | `true` | Whether to show the equalizer animation or not.
+`atom-spotified:statusBarViewPosition` | `string` | `right` | Position of the statusBarView
+`atom-spotified:statusBarViewPriority` | `integer` | `1000` | Affects the order of which statusBarView appears in the status bar
 
 ## Contributing
 

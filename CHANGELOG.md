@@ -1,3 +1,6 @@
+## 0.5.0
+* Add `mode` option
+
 ## 0.4.0
 * UI components rewritten in atom/etch, so they are way easier to exxtend & customize now
 * Added spotify style cover-art toggle. Probably not too useful, but it's super cool :tada:
