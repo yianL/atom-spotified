@@ -34,7 +34,7 @@
         "Tree",
         "StatusBar"
       ],
-      "description": "*Restart required"
+      "description": "*Reload required"
     },
     "showSoundBar": {
       "type": "boolean",
