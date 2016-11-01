@@ -36,7 +36,7 @@ export default class StatusBarView {
     this.subscriptions = new CompositeDisposable()
     this.subscriptions.add(
       atom.tooltips.add(this.refs.name, {
-        title: () => `${this.props.trackInfo.name} - ${this.props.trackInfo.artist}`
+        title: () => this.props.message || `${this.props.trackInfo.name} - ${this.props.trackInfo.artist}`
       })
     )
   }

@@ -20,7 +20,7 @@
     "classnames": "^2.2.5",
     "dom-listener": "^0.1.2",
     "etch": "^0.6.0",
-    "spotify-node-applescript": "^0.2.2"
+    "applescript": "^1.0.0"
   },
   "devDependencies": {
     "standard": "^6.0.8"

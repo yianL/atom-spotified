@@ -1,6 +1,7 @@
 'use babel'
 
-import spotify from 'spotify-node-applescript'
+import spotify from './spotify-applescript'
+import { Errors } from './constants'
 
 export default class AtomSpotifiedPoller {
   constructor () {
@@ -14,6 +15,9 @@ export default class AtomSpotifiedPoller {
     setTimeout(() => this.updateTrackInfo())
     this.poller = setInterval(() => this.updateTrackInfo(), 5000)
     this.state = 'started'
+    this.subscriptions.forEach((cb) => cb({
+      message: 'Initializing..'
+    }))
   }
 
   stop () {
@@ -22,63 +26,59 @@ export default class AtomSpotifiedPoller {
   }
 
   updateTrackInfo () {
-    spotify.getState((error, state) => {
-      if (!state) {
-        // cannot get player state
-        return this.handleError(error)
-      }
+    spotify.getState()
+      .then((state) => {
+        const trackId = state.track_id.split(':')[2]
 
-      const trackId = state.track_id.split(':')[2]
+        if (trackId === this.trackInfo.id) {
+          // same track update player state if needed
+          return (state.state !== this.trackInfo.state) && this.handleUpdate({ state: state.state })
+        }
 
-      if (trackId === this.trackInfo.id) {
-        // same track update player state if needed
-        return (state.state !== this.trackInfo.state) && this.handleUpdate({ state: state.state })
-      }
+        const options = {
+          credentials: 'include',
+          method: 'GET',
+          mode: 'cors'
+        }
 
-      const options = {
-        credentials: 'include',
-        method: 'GET',
-        mode: 'cors'
-      }
-
-      fetch(`https://api.spotify.com/v1/tracks/${trackId}`, options)
-        .then((response) => {
-          if (response.ok) {
-            return response.json()
-          }
-
-          throw new Error('Spotify API request failed')
-        })
-        .then((trackInfo) => {
-          // trackInfo.artists [id, name, href]
-          // trackInfo.album {id, name, images[url, height, width]}
-          // trackInfo.name
-          // trackInfo.popularity
-          const data = {
-            state: state.state,
-            id: trackId,
-            name: trackInfo.name,
-            artist: trackInfo.artists[0].name,
-            cover: trackInfo.album.images[1].url
-          }
-
-          this.handleUpdate(data)
-        })
-        .catch((error) => {
-          console.error('atom-spotified:', error)
-
-          spotify.getTrack((error, track) => {
+        fetch(`https://api.spotify.com/v1/tracks/${trackId}`, options)
+          .then((response) => {
+            if (response.ok) { return response.json() }
+            throw new Error('Spotify API request failed')
+          })
+          .then((trackInfo) => {
+            // trackInfo.artists [id, name, href]
+            // trackInfo.album {id, name, images[url, height, width]}
+            // trackInfo.name
+            // trackInfo.popularity
             const data = {
               state: state.state,
               id: trackId,
-              name: track.name,
-              artist: track.artist
+              name: trackInfo.name,
+              artist: trackInfo.artists[0].name,
+              cover: trackInfo.album.images[1].url
             }
 
-            track ? this.handleUpdate(data) : this.handleError(error)
+            this.handleUpdate(data)
           })
-        })
-    })
+          .catch((error) => {
+            console.error('spotify api error:', error)
+
+            // use offline info
+            spotify.getTrack()
+              .then((track) => this.handleUpdate({
+                state: state.state,
+                id: trackId,
+                name: track.name,
+                artist: track.artist
+              }))
+              .catch((error) => this.handleError(error))
+          })
+      })
+      .catch((error) => {
+        // cannot get player state
+        return this.handleError(error)
+      })
   }
 
   addSubscriber (cb) {
@@ -102,23 +102,39 @@ export default class AtomSpotifiedPoller {
     this.trackInfo.cover = cover || this.trackInfo.cover
 
     this.subscriptions.forEach((cb) => cb({
-      trackInfo: this.trackInfo
+      trackInfo: this.trackInfo,
+      message: undefined
     }))
   }
 
   handleError (error) {
-    console.error('atom-spotified error:', error)
+    switch (error.message) {
+      case Errors.NO_DATA:
+        if(this.retryCount++ > 2) {
+          this.subscriptions.forEach((cb) => cb({
+            trackInfo: {
+              state: 'paused'
+            },
+            message: 'Spotify is not running'
+          }))
+        }
+        break;
 
-    if (this.retryCount > 3 && this.trackInfo.id) {
-      this.subscriptions.forEach((cb) => cb({
-        trackInfo: {
-          state: 'error'
-        },
-        message: 'Failed to get track info'
-      }))
-      delete this.trackInfo.id
-    } else {
-      this.retryCount++
+      default:
+        // unhandled errors
+        console.error('atom-spotified error:', error)
+
+        if (this.retryCount > 3 && this.trackInfo.id) {
+          this.subscriptions.forEach((cb) => cb({
+            trackInfo: {
+              state: 'error'
+            },
+            message: 'Failed to get track info'
+          }))
+          delete this.trackInfo.id
+        } else {
+          this.retryCount++
+        }
     }
   }
 }

@@ -1,3 +1,10 @@
+## 0.6.0
+* Using "atom-spotified" package will no longer auto-start Spotify for you (#8)
+* Status of atom-spotified will be surfaced through hover tooltips (Spotify is running/not running)
+
+**chores**:
+* Removed dependency `spotify-node-applescript`, and reimplemented similar functionality with Promise-based API.
+
 ## 0.5.0
 * Add `mode` option
 
