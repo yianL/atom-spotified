@@ -9,7 +9,7 @@ Tree (Spotify style)   | Status Bar
 
 ## Usage
 
-Only OSX is supported at this moment since I'm using AppleScript to interact with Spotify.
+:warning: Only OSX is supported at this moment since the package requires AppleScript to interact with Spotify.
 
 ### Commands
 
