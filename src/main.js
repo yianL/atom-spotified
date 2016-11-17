@@ -22,40 +22,43 @@ const AtomSpotified = {
     this.atomSpotifiedView = new AtomSpotifiedView()
     this.statusBarView = new StatusBarView()
     this.updateStatusView = updateStatusView.bind(this)
+    this.handleTreeToggle = handleTreeToggle.bind(this)
     this.addStatusBarView = addStatusBarView.bind(this)
     this.addTreeView = addTreeView.bind(this)
 
     this.poller.addSubscriber(this.atomSpotifiedView.update.bind(this.atomSpotifiedView))
     this.poller.addSubscriber(this.statusBarView.update.bind(this.statusBarView))
 
-    Promise.all([
-      atom.packages.activatePackage('tree-view'),
-      atom.packages.activatePackage('status-bar'),
-    ])
-    .then(([treeViewPkg, statusBarPkg]) => {
-      // when tree-view package is initialized
-      this.treeViewPkg = treeViewPkg
+    const packageDependencies = [
+      'status-bar',
+    ]
+    if (atom.packages.isPackageActive('tree-view')) { packageDependencies.push('tree-view') }
+    if (atom.packages.isPackageActive('nuclide-file-tree')) { packageDependencies.push('nuclide-file-tree') }
 
-      switch (config.mode) {
-        case Mode.STATUS:
-          this.statusBarTile = this.addStatusBarView()
-          break
+    const packageActivationPromises = packageDependencies.map((packageName) => atom.packages.activatePackage(packageName))
 
-        case Mode.TREE:
-          if (treeViewPkg.mainModule.treeView) {
-            this.addTreeView()
-          }
-          break
-
-        case Mode.AUTO:
-        default:
-          if (treeViewPkg.mainModule.treeView) {
-            this.addTreeView()
-          } else {
+    Promise.all(packageActivationPromises)
+      .then(([statusBarPkg]) => {
+        switch (config.mode) {
+          case Mode.STATUS:
             this.statusBarTile = this.addStatusBarView()
-          }
-      }
-    })
+            break
+
+          case Mode.TREE:
+            this.addTreeView()
+            break
+
+          case Mode.AUTO:
+          default:
+            const sidePanel = getSidePanel()
+
+            if (sidePanel && sidePanel.clientWidth > 0) {
+              this.addTreeView()
+            } else {
+              this.statusBarTile = this.addStatusBarView()
+            }
+        }
+      })
 
     // Register command that toggles this view
     this.subscriptions.add(
@@ -71,28 +74,8 @@ const AtomSpotified = {
     // Monitor tree-view toggle events
     this.subscriptions.add(
       atom.commands.onDidDispatch((command) => {
-        if (command.type !== 'tree-view:toggle') return
-
-        switch (config.mode) {
-          case Mode.TREE:
-            if (!this.viewAppended) {
-              this.addTreeView()
-            }
-          case Mode.STATUS:
-            break
-
-          case Mode.AUTO:
-          default:
-            if (this.showStatus) {
-              if (!this.viewAppended) {
-                this.addTreeView()
-              }
-              this.statusBarTile && this.statusBarTile.destroy()
-              this.statusBarTile = null
-              this.showStatus = false
-            } else {
-              this.statusBarTile = this.addStatusBarView()
-            }
+        if (command.type === 'tree-view:toggle' || command.type === 'nuclide-file-tree:toggle') {
+          this.handleTreeToggle()
         }
       })
     )
@@ -102,10 +85,40 @@ const AtomSpotified = {
 
     this.poller.start()
 
+    function getSidePanel () {
+      return document.getElementsByClassName('nuclide-side-bar-tab-container')[0] ||
+        document.getElementsByClassName('tree-view-resizer')[0]
+    }
+
     function addTreeView () {
-      this.treeViewPkg.mainModule.treeView.append(this.atomSpotifiedView.element)
-      this.viewAppended = true
-      this.showStatus = false
+      const sidePanel = getSidePanel()
+      if (sidePanel) {
+        sidePanel.appendChild(this.atomSpotifiedView.element)
+        this.viewAppended = true
+        this.showStatus = false
+      }
+    }
+
+    function handleTreeToggle () {
+      switch (config.mode) {
+        case Mode.TREE:
+          if (!this.viewAppended) { this.addTreeView() }
+          break
+
+        case Mode.STATUS:
+          break
+
+        case Mode.AUTO:
+        default:
+          if (this.showStatus) {
+            if (!this.viewAppended) { this.addTreeView() }
+            this.statusBarTile && this.statusBarTile.destroy()
+            this.statusBarTile = null
+            this.showStatus = false
+          } else {
+            this.statusBarTile = this.addStatusBarView()
+          }
+      }
     }
 
     function addStatusBarView () {
