@@ -11,6 +11,8 @@ Tree (Spotify style)   | Status Bar
 
 :warning: Only OSX is supported at this moment since the package requires AppleScript to interact with Spotify.
 
+**Update (2016-11-16)**: This package is compatible with [Nuclide](https://nuclide.io/). Checkout the release note: [0.7.0](https://github.com/yianL/atom-spotified/blob/master/CHANGELOG.md#070)
+
 ### Commands
 
 Command                 | Description

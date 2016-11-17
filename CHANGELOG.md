@@ -1,3 +1,10 @@
+## 0.7.0
+* **atom-spotified** now plays nicely with [Nuclide](https://nuclide.io/) file tree. :tada:
+  
+  I've switched to Nuclide months ago, and really enjoyed some of the features it provides such as flow integration, working sets, and smarter autocomplete suggestions (thanks to flow). But Nuclide comes with a different tree-view implementation that is a completely separate package from the native atom file-tree, and prevented this package from working properly. 
+  
+  Worry no more! This update fixes the issue with `nuclide-file-tree` and you can continue to enjoy your spotify view along with the awesome Nuclide file tree!
+
 ## 0.6.0
 * Using "atom-spotified" package will no longer auto-start Spotify for you (#8)
 * Status of atom-spotified will be surfaced through hover tooltips (Spotify is running/not running)
