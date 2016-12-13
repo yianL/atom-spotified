@@ -1,3 +1,6 @@
+## 0.7.1
+* Fix compatibility issue with Nuclide 0.189.0 and up.
+  
 ## 0.7.0
 * **atom-spotified** now plays nicely with [Nuclide](https://nuclide.io/) file tree. :tada:
   

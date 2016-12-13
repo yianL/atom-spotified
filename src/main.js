@@ -86,8 +86,10 @@ const AtomSpotified = {
     this.poller.start()
 
     function getSidePanel () {
-      return document.getElementsByClassName('nuclide-side-bar-tab-container')[0] ||
-        document.getElementsByClassName('tree-view-resizer')[0]
+      const oldNuclidePane = document.getElementsByClassName('nuclide-side-bar-tab-container')[0]
+      const atomTreeViewPane = document.getElementsByClassName('tree-view-resizer')[0]
+      const newNuclidePane = atomTreeViewPane ? atomTreeViewPane.getElementsByTagName('atom-pane')[0] : undefined
+      return newNuclidePane || oldNuclidePane || atomTreeViewPane
     }
 
     function addTreeView () {
