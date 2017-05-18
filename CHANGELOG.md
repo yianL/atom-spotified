@@ -1,3 +1,7 @@
+## 0.8.0
+* Fix compatibility issue with Atom 1.17 and up. (#12)
+* Display non-square cover art without stretching. (#11)
+
 ## 0.7.1
 * Fix compatibility issue with Nuclide 0.189.0 and up.
   
