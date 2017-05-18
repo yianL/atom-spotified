@@ -87,7 +87,12 @@ const AtomSpotified = {
 
     function getSidePanel () {
       const oldNuclidePane = document.getElementsByClassName('nuclide-side-bar-tab-container')[0]
-      const atomTreeViewPane = document.getElementsByClassName('tree-view-resizer')[0]
+      const atomTreeViewPane =
+        document.getElementsByClassName('tree-view-resizer')[0] ||  // atom < 1.17
+        Array.prototype.filter.call(                                // atom >= 1.17
+          document.getElementsByTagName('atom-dock'),
+          e => e.classList.contains('left')
+        )[0]
       const newNuclidePane = atomTreeViewPane ? atomTreeViewPane.getElementsByTagName('atom-pane')[0] : undefined
       return newNuclidePane || oldNuclidePane || atomTreeViewPane
     }
