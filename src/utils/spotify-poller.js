@@ -35,45 +35,17 @@ export default class AtomSpotifiedPoller {
           return (state.state !== this.trackInfo.state) && this.handleUpdate({ state: state.state })
         }
 
-        const options = {
-          credentials: 'include',
-          method: 'GET',
-          mode: 'cors'
-        }
+        // use applescript info
+        spotify.getTrack()
+          .then((track) => this.handleUpdate({
+            state: state.state,
+            id: trackId,
+            name: track.name,
+            artist: track.artist,
+            cover: track.artwork_url,
+          }))
+          .catch((error) => this.handleError(error))
 
-        fetch(`https://api.spotify.com/v1/tracks/${trackId}`, options)
-          .then((response) => {
-            if (response.ok) { return response.json() }
-            throw new Error('Spotify API request failed')
-          })
-          .then((trackInfo) => {
-            // trackInfo.artists [id, name, href]
-            // trackInfo.album {id, name, images[url, height, width]}
-            // trackInfo.name
-            // trackInfo.popularity
-            const data = {
-              state: state.state,
-              id: trackId,
-              name: trackInfo.name,
-              artist: trackInfo.artists[0].name,
-              cover: trackInfo.album.images[1].url
-            }
-
-            this.handleUpdate(data)
-          })
-          .catch((error) => {
-            console.error('spotify api error:', error)
-
-            // use offline info
-            spotify.getTrack()
-              .then((track) => this.handleUpdate({
-                state: state.state,
-                id: trackId,
-                name: track.name,
-                artist: track.artist
-              }))
-              .catch((error) => this.handleError(error))
-          })
       })
       .catch((error) => {
         // cannot get player state

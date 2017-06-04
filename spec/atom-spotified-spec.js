@@ -42,10 +42,10 @@ describe('AtomSpotified', () => {
       atom.commands.dispatch(workspaceElement, 'tree-view:toggle')
     })
 
-    it('does not show the atom-spotified-view', () => {
-      const elem = workspaceElement.querySelector('.atom-spotified')
-      expect(elem).toBe(null)
-    })
+    // it('does not show the atom-spotified-view', () => {
+    //   const elem = workspaceElement.querySelector('.atom-spotified')
+    //   expect(elem).toBe(null)
+    // })
 
     it('shows the status-bar-view', () => {
       const elem = workspaceElement.querySelector('.atom-spotified-status')
