@@ -1,3 +1,6 @@
+## 0.8.1
+* Remove Spotify Web Api call. (#13)
+
 ## 0.8.0
 * Fix compatibility issue with Atom 1.17 and up. (#12)
 * Display non-square cover art without stretching. (#11)
