@@ -63,7 +63,7 @@ export default class AtomSpotifiedView {
             ? <img className='album-art' src={cover} />
             : <i className='fa fa-spotify' />}
           <div className='toggle'>
-            <i className='fa fa-angle-down' />
+            <span className='icon icon-chevron-down' />
           </div>
         </div>
         <div className='info'>
@@ -72,7 +72,7 @@ export default class AtomSpotifiedView {
               ? <img className='album-art' src={cover} />
               : <i className='fa fa-spotify' />}
             <div className='toggle'>
-              <i className='fa fa-angle-up' />
+              <span className='icon icon-chevron-up' />
             </div>
           </div>
 

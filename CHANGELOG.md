@@ -1,3 +1,6 @@
+## 0.8.2
+* Remove dependency on font-awesome. (#14)
+
 ## 0.8.1
 * Remove Spotify Web Api call. (#13)
 
