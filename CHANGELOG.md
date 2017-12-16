@@ -1,3 +1,6 @@
+## 0.8.3
+* Auto mode works correctly when using the left dock-panel toggle to toggle the tree view.
+
 ## 0.8.2
 * Remove dependency on font-awesome. (#14)
 
