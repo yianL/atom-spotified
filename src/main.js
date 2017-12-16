@@ -50,14 +50,15 @@ const AtomSpotified = {
 
           case Mode.AUTO:
           default:
-            const sidePanel = getSidePanel()
-
-            if (sidePanel && sidePanel.clientWidth > 0) {
+            if (isSidePaneVisible()) {
               this.addTreeView()
             } else {
               this.statusBarTile = this.addStatusBarView()
             }
         }
+
+        this.leftDockToggle = document.getElementsByClassName("atom-dock-toggle-button left")[0]
+        this.leftDockToggle.addEventListener('click', this.handleTreeToggle)
       })
 
     // Register command that toggles this view
@@ -74,7 +75,9 @@ const AtomSpotified = {
     // Monitor tree-view toggle events
     this.subscriptions.add(
       atom.commands.onDidDispatch((command) => {
-        if (command.type === 'tree-view:toggle' || command.type === 'nuclide-file-tree:toggle') {
+        if (command.type === 'tree-view:toggle' ||
+          command.type === 'nuclide-file-tree:toggle' ||
+          command.type === 'window:toggle-left-dock') {
           this.handleTreeToggle()
         }
       })
@@ -104,6 +107,10 @@ const AtomSpotified = {
         this.viewAppended = true
         this.showStatus = false
       }
+    }
+
+    function isSidePaneVisible() {
+      return getSidePanel() && document.getElementsByClassName("atom-dock-open left").length
     }
 
     function handleTreeToggle () {
@@ -153,6 +160,9 @@ const AtomSpotified = {
     this.atomSpotifiedView.destroy()
     this.statusBarTile && this.statusBarTile.destroy()
     this.statusBarView.destroy()
+    if (this.leftDockToggle) {
+      this.leftDockToggle.removeEventListener('click', this.handleTreeToggle)
+    }
   },
 
   serialize: () => ({}),
